@@ -9,6 +9,7 @@ import FacilitiesView from "./components/pages/facilities/FacilitiesView";
 import FacilitiesCreate from "./components/pages/facilities/FacilitiesCreate";
 import NotFoundPage from "./components/pages/404";
 import FacilitiesDetails from "./components/pages/facilities/FacilitiesDetails";
+import Container from "@mui/material/Container";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,7 +21,14 @@ root.render(
         <Route path="/" element={<HomePage />} />
         <Route path="home" element={<HomePage />} />
         <Route path="facilities">
-          <Route path="view" element={<FacilitiesView />} />
+          <Route
+            path="view"
+            element={
+              <Container>
+                <FacilitiesView />
+              </Container>
+            }
+          />
           <Route path="create" element={<FacilitiesCreate />} />
           <Route path="details/:id" element={<FacilitiesDetails />} />
         </Route>
