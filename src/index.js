@@ -3,38 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import SideNav from "./components/navigation/SideNav";
-import HomePage from "./components/pages/home";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import FacilitiesView from "./components/pages/facilities/FacilitiesView";
-import FacilitiesCreate from "./components/pages/facilities/FacilitiesCreate";
-import NotFoundPage from "./components/pages/404";
-import FacilitiesDetails from "./components/pages/facilities/FacilitiesDetails";
-import Container from "@mui/material/Container";
+import Router from "./components/navigation/Router";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <SideNav />
+    <SideNav content={<Router />} appTitle="Facility Watch"/>
     <br></br>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="home" element={<HomePage />} />
-        <Route path="facilities">
-          <Route
-            path="view"
-            element={
-              <Container>
-                <FacilitiesView />
-              </Container>
-            }
-          />
-          <Route path="create" element={<FacilitiesCreate />} />
-          <Route path="details/:id" element={<FacilitiesDetails />} />
-        </Route>
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
+
   </React.StrictMode>
 );
 
