@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Collapse,
   Box,
@@ -9,16 +9,48 @@ import {
   IconButton,
   Rating,
 } from "@mui/material";
-import { KeyboardArrowUp, KeyboardArrowDown, Edit } from "@mui/icons-material";
+import {
+  KeyboardArrowUp,
+  KeyboardArrowDown,
+  Edit,
+  Delete,
+} from "@mui/icons-material";
 import EditFacilityModal from "./EditFacilityModal";
+import ConfirmationModal from "../generic/ConfirmationModal";
 
 export default function FacilityRow(props) {
   const { row } = props;
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const handleDeleteClickOpen = () => {
+    setOpenDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    let response = await fetch(props.FacilitiesURL + "/" + String(row.ID), {
+      method: "DELETE",
+      headers: {},
+    });
+    if (response.ok) {
+    }
+    setOpenDeleteModal(false);
+
+    props.reload();
+  };
+
+  const handleDeleteClose = () => {
+    setOpenDeleteModal(false);
+  };
 
   const handleEditClickOpen = () => {
     setOpenEditModal(true);
+  };
+
+  const handleEditSubmitComplete = () => {
+    props.reload();
+    setOpenEditModal(false);
   };
 
   const handleEditClose = () => {
@@ -59,6 +91,23 @@ export default function FacilityRow(props) {
             FacilitiesURL={props.FacilitiesURL}
             open={openEditModal}
             handleClose={handleEditClose}
+            handleSubmit={handleEditSubmitComplete}
+          />
+        </TableCell>
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => handleDeleteClickOpen()}
+          >
+            <Delete />
+          </IconButton>
+          <ConfirmationModal
+            title="Delete Facility?"
+            description={"Are you sure you want to DELETE: " + row.Name}
+            open={openDeleteModal}
+            handleConfirm={handleDeleteConfirm}
+            handleCancel={handleDeleteClose}
           />
         </TableCell>
       </TableRow>

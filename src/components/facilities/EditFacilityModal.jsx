@@ -6,14 +6,11 @@ import {
   DialogTitle,
   DialogContentText,
   DialogActions,
-  IconButton,
 } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import FacilityForm from "./FacilityForm";
 
 function EditFacilityModal(props) {
-  const [open, setOpen] = React.useState(false);
-
   const handleSubmit = async (Facility) => {
     let response = await fetch(
       props.FacilitiesURL + "/" + String(Facility.ID),
@@ -27,7 +24,7 @@ function EditFacilityModal(props) {
     );
     if (response.ok) {
     }
-    props.handleClose();
+    props.handleSubmit();
   };
 
   return (

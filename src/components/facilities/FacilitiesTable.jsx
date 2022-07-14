@@ -35,29 +35,6 @@ let rows = [
 export default function FacilitiesTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [facilities, setFacilities] = useState(rows);
-
-  const getFacilitiesData = async () => {
-    let response = await fetch(props.FacilitiesURL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    });
-    if (response.ok) {
-      let facilities = (await response.json()).map((facility) => {
-        facility.Ratings = [];
-        facility.RatingsCount = 42;
-        facility.Stars = 3.3;
-        return facility;
-      });
-      setFacilities(facilities);
-    }
-  };
-
-  useEffect(() => {
-    getFacilitiesData();
-  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -81,27 +58,30 @@ export default function FacilitiesTable(props) {
               <TableCell align="right">Ratings</TableCell>
               <TableCell align="right">Stars</TableCell>
               <TableCell />
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {facilities
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <FacilityRow
-                    key={row.ID}
-                    row={row}
-                    FacilitiesURL={props.FacilitiesURL}
-                  />
-                );
-              })}
+            {props.Facilities.slice(
+              page * rowsPerPage,
+              page * rowsPerPage + rowsPerPage
+            ).map((row) => {
+              return (
+                <FacilityRow
+                  key={row.ID}
+                  row={row}
+                  FacilitiesURL={props.FacilitiesURL}
+                  reload={props.handleReload}
+                />
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={facilities.length}
+        count={props.Facilities.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

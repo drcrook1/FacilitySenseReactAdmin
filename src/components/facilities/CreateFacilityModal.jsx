@@ -19,6 +19,7 @@ function CreateFacilityModal(props) {
       body: JSON.stringify(Facility),
     });
     if (response.ok) {
+      props.handleReload();
     }
     props.handleClose();
   };
