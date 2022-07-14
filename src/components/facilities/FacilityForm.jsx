@@ -1,43 +1,16 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { Button } from "@mui/material";
 
-function FacilityCreateForm(props) {
-  const [Facility, setFacility] = useState({
-    Name: "",
-    Latitude: 0,
-    Longitude: 0,
-    Description: "",
-    AddressLineOne: "",
-    AddressLineTwo: "",
-    City: "",
-    State: "",
-    ZipCode: "",
-  });
+function FacilityForm(props) {
+  const [Facility, setFacility] = useState(props.Facility);
 
-  const createFacilityEndpoint = props.FacilitiesURL;
   const submitActions = props.submitActions;
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    alert(JSON.stringify(Facility));
-    let response = await fetch(createFacilityEndpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(Facility),
-    });
-    if (response.ok) {
-      alert(`The content you entered was: 
-        ${Facility}
-        `);
-    }
-    submitActions();
+    submitActions(Facility);
   };
 
   return (
@@ -52,6 +25,7 @@ function FacilityCreateForm(props) {
             fullWidth
             autoComplete="given-name"
             variant="standard"
+            defaultValue={Facility.Name}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -62,13 +36,13 @@ function FacilityCreateForm(props) {
         </Grid>
         <Grid item xs={6} sm={3}>
           <TextField
-            required
             id="Longitude"
             name="Longitude"
             label="Longitude"
             fullWidth
             autoComplete="longitude"
             variant="standard"
+            defaultValue={Facility.Longitude}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -79,13 +53,13 @@ function FacilityCreateForm(props) {
         </Grid>
         <Grid item xs={6} sm={3}>
           <TextField
-            required
             id="Latitude"
             name="Latitude"
             label="Latitude"
             fullWidth
             autoComplete="latitude"
             variant="standard"
+            defaultValue={Facility.Latitude}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -105,7 +79,7 @@ function FacilityCreateForm(props) {
             variant="standard"
             multiline
             rows={2}
-            maxRows={4}
+            defaultValue={Facility.Description}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -123,6 +97,7 @@ function FacilityCreateForm(props) {
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
+            defaultValue={Facility.AddressLineOne}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -139,6 +114,7 @@ function FacilityCreateForm(props) {
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
+            defaultValue={Facility.AddressLineTwo}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -156,6 +132,7 @@ function FacilityCreateForm(props) {
             fullWidth
             autoComplete="shipping address-level2"
             variant="standard"
+            defaultValue={Facility.City}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -171,6 +148,7 @@ function FacilityCreateForm(props) {
             label="State/Province/Region"
             fullWidth
             variant="standard"
+            defaultValue={Facility.State}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -181,13 +159,13 @@ function FacilityCreateForm(props) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="zip"
             name="zip"
             label="Zip / Postal code"
             fullWidth
             autoComplete="shipping postal-code"
             variant="standard"
+            defaultValue={Facility.ZipCode}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -198,13 +176,13 @@ function FacilityCreateForm(props) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="country"
             name="country"
             label="Country"
             fullWidth
             autoComplete="shipping country"
             variant="standard"
+            defaultValue={Facility.Country}
             onChange={(e) =>
               setFacility((oldValue) => ({
                 ...oldValue,
@@ -223,4 +201,4 @@ function FacilityCreateForm(props) {
   );
 }
 
-export default FacilityCreateForm;
+export default FacilityForm;

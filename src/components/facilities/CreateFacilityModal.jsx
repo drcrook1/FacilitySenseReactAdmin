@@ -7,7 +7,7 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
-import FacilityCreateForm from "./FacilityCreateForm";
+import FacilityForm from "./FacilityForm";
 
 function CreateFacilityModal(props) {
   const [open, setOpen] = React.useState(false);
@@ -18,6 +18,31 @@ function CreateFacilityModal(props) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSubmit = async (Facility) => {
+    let response = await fetch(props.FacilitiesURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(Facility),
+    });
+    if (response.ok) {
+    }
+    setOpen(false);
+  };
+
+  const emptyFacility = {
+    Name: "",
+    Latitude: 0,
+    Longitude: 0,
+    Description: "",
+    AddressLineOne: "",
+    AddressLineTwo: "",
+    City: "",
+    State: "",
+    ZipCode: "",
   };
 
   return (
@@ -32,9 +57,11 @@ function CreateFacilityModal(props) {
             Please provide the following details to create a new facility in the
             system.
           </DialogContentText>
-          <FacilityCreateForm
-            submitActions={handleClose}
-            FacilitiesURL="https://localhost:3000/api/facilities"
+          <FacilityForm
+            submitActions={handleSubmit}
+            title="Create New Facility"
+            details="Please provide the following details to create a new facility in the system."
+            Facility={emptyFacility}
           />
         </DialogContent>
         <DialogActions>

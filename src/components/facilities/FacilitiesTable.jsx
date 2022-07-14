@@ -1,12 +1,16 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
+import { useState, useEffect } from "react";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from "@mui/material";
+import FacilityRow from "./FacilityRow";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
@@ -20,23 +24,40 @@ function createData(name, city, state, ratings, stars, id) {
   return { name, city, state, ratings, stars, id };
 }
 
-const rows = [
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 1),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 2),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 3),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 4),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 5),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 6),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 7),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 8),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 9),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 10),
-  createData("Pirate Playground", "Miami Beach", "FL", 75, 3.4, 11),
+let rows = [
+  createData("Loading", "Miami Beach", "FL", 75, 3.4, 1),
+  createData("Loading", "Miami Beach", "FL", 75, 3.4, 2),
+  createData("Loading", "Miami Beach", "FL", 75, 3.4, 9),
+  createData("Loading", "Miami Beach", "FL", 75, 3.4, 10),
+  createData("Loading", "Miami Beach", "FL", 75, 3.4, 11),
 ];
 
-export default function FacilitiesTable() {
+export default function FacilitiesTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [facilities, setFacilities] = useState(rows);
+
+  const getFacilitiesData = async () => {
+    let response = await fetch(props.FacilitiesURL, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    if (response.ok) {
+      let facilities = (await response.json()).map((facility) => {
+        facility.Ratings = [];
+        facility.RatingsCount = 42;
+        facility.Stars = 3.3;
+        return facility;
+      });
+      setFacilities(facilities);
+    }
+  };
+
+  useEffect(() => {
+    getFacilitiesData();
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -49,38 +70,29 @@ export default function FacilitiesTable() {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: 440 }} component={Paper}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
+              <TableCell />
+              <TableCell>Name</TableCell>
+              <TableCell align="right">City</TableCell>
+              <TableCell align="right">State</TableCell>
+              <TableCell align="right">Ratings</TableCell>
+              <TableCell align="right">Stars</TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {facilities
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
+                  <FacilityRow
+                    key={row.ID}
+                    row={row}
+                    FacilitiesURL={props.FacilitiesURL}
+                  />
                 );
               })}
           </TableBody>
@@ -89,7 +101,7 @@ export default function FacilitiesTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={facilities.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

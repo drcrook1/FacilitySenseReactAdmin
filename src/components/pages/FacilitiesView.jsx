@@ -8,8 +8,8 @@ function FacilitiesView() {
 
   return (
     <Container>
-      <CreateFacilityModal />
-      <FacilitiesTable />
+      <CreateFacilityModal FacilitiesURL="https://localhost:7113/api/facilities" />
+      <FacilitiesTable FacilitiesURL="https://localhost:7113/api/facilities" />
     </Container>
   );
 }
