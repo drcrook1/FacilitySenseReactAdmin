@@ -1,14 +1,28 @@
 import React, { useState } from "react";
-import Container from "@mui/material/Container";
+import { Button, Container } from "@mui/material";
 import FacilitiesTable from "../facilities/FacilitiesTable";
 import CreateFacilityModal from "../facilities/CreateFacilityModal";
 
 function FacilitiesView() {
-  const onSubmit = (data) => console.log(data);
+  const [openCreateFacility, setOpenCreateFacility] = React.useState(false);
 
+  const handleClickFacilityCreate = () => {
+    setOpenCreateFacility(true);
+  };
+
+  const handleCloseFacilityCreate = () => {
+    setOpenCreateFacility(false);
+  };
   return (
     <Container>
-      <CreateFacilityModal FacilitiesURL="https://localhost:7113/api/facilities" />
+      <Button variant="outlined" onClick={handleClickFacilityCreate}>
+        Add New Facility
+      </Button>
+      <CreateFacilityModal
+        FacilitiesURL="https://localhost:7113/api/facilities"
+        open={openCreateFacility}
+        handleClose={handleCloseFacilityCreate}
+      />
       <FacilitiesTable FacilitiesURL="https://localhost:7113/api/facilities" />
     </Container>
   );

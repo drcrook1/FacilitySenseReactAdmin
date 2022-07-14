@@ -10,16 +10,6 @@ import {
 import FacilityForm from "./FacilityForm";
 
 function CreateFacilityModal(props) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleSubmit = async (Facility) => {
     let response = await fetch(props.FacilitiesURL, {
       method: "POST",
@@ -30,7 +20,7 @@ function CreateFacilityModal(props) {
     });
     if (response.ok) {
     }
-    setOpen(false);
+    props.handleClose();
   };
 
   const emptyFacility = {
@@ -47,10 +37,7 @@ function CreateFacilityModal(props) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add New Facility
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={props.open} onClose={props.handleClose}>
         <DialogTitle>Add New Facility</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -65,7 +52,7 @@ function CreateFacilityModal(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={props.handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </div>

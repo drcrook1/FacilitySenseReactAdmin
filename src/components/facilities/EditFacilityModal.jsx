@@ -14,14 +14,6 @@ import FacilityForm from "./FacilityForm";
 function EditFacilityModal(props) {
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleSubmit = async (Facility) => {
     let response = await fetch(
       props.FacilitiesURL + "/" + String(Facility.ID),
@@ -35,19 +27,12 @@ function EditFacilityModal(props) {
     );
     if (response.ok) {
     }
-    setOpen(false);
+    props.handleClose();
   };
 
   return (
     <div>
-      <IconButton
-        aria-label="expand row"
-        size="small"
-        onClick={() => handleClickOpen()}
-      >
-        <Edit />
-      </IconButton>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={props.open} onClose={props.handleClose}>
         <DialogTitle>Edit Facility</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -63,7 +48,7 @@ function EditFacilityModal(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={props.handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </div>

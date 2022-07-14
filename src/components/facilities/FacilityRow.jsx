@@ -15,6 +15,15 @@ import EditFacilityModal from "./EditFacilityModal";
 export default function FacilityRow(props) {
   const { row } = props;
   const [open, setOpen] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+
+  const handleEditClickOpen = () => {
+    setOpenEditModal(true);
+  };
+
+  const handleEditClose = () => {
+    setOpenEditModal(false);
+  };
 
   return (
     <React.Fragment>
@@ -38,9 +47,18 @@ export default function FacilityRow(props) {
           <Rating name="read-only" value={row.Stars} readOnly precision={0.5} />
         </TableCell>
         <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => handleEditClickOpen()}
+          >
+            <Edit />
+          </IconButton>
           <EditFacilityModal
             Facility={row}
             FacilitiesURL={props.FacilitiesURL}
+            open={openEditModal}
+            handleClose={handleEditClose}
           />
         </TableCell>
       </TableRow>
