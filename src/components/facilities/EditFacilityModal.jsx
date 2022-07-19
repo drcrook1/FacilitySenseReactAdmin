@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Dialog,
@@ -7,7 +7,6 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
-import { Edit } from "@mui/icons-material";
 import FacilityForm from "./FacilityForm";
 
 function EditFacilityModal(props) {

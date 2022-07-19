@@ -1,10 +1,4 @@
-import React, { useState } from "react";
-import {
-  AzureMap,
-  AzureMapsProvider,
-  IAzureMapOptions,
-} from "react-azure-maps";
-import { AuthenticationType } from "azure-maps-control";
+import React from "react";
 
 function HomePage() {
   return (

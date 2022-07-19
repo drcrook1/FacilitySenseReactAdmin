@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
 import {
   Paper,
   Table,
@@ -11,26 +10,6 @@ import {
   TableRow,
 } from "@mui/material";
 import FacilityRow from "./FacilityRow";
-
-const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "city", label: "City", minWidth: 100 },
-  { id: "state", label: "State", minWidth: 100 },
-  { id: "ratings", label: "Ratings", minWidth: 100 },
-  { id: "stars", label: "Stars", minWidth: 100 },
-];
-
-function createData(name, city, state, ratings, stars, id) {
-  return { name, city, state, ratings, stars, id };
-}
-
-let rows = [
-  createData("Loading", "Miami Beach", "FL", 75, 3.4, 1),
-  createData("Loading", "Miami Beach", "FL", 75, 3.4, 2),
-  createData("Loading", "Miami Beach", "FL", 75, 3.4, 9),
-  createData("Loading", "Miami Beach", "FL", 75, 3.4, 10),
-  createData("Loading", "Miami Beach", "FL", 75, 3.4, 11),
-];
 
 export default function FacilitiesTable(props) {
   const [page, setPage] = React.useState(0);

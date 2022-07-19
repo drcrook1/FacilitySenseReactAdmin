@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogActions,
 } from "@mui/material";
 
-function confirmationModal(props) {
+function ConfirmationModal(props) {
   return (
     <div>
       <Dialog open={props.open} onClose={props.handleClose}>
@@ -25,4 +25,4 @@ function confirmationModal(props) {
   );
 }
 
-export default confirmationModal;
+export default ConfirmationModal;

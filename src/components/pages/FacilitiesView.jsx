@@ -8,7 +8,8 @@ function FacilitiesView(props) {
   const [facilities, setFacilities] = useState([]);
 
   const getFacilitiesData = async () => {
-    let response = await fetch("https://localhost:7113/api/facilities", {
+    let requestURI = process.env.REACT_APP_API_BACKEND_ROOT + "/facilities";
+    let response = await fetch(requestURI, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -43,13 +44,13 @@ function FacilitiesView(props) {
         Add New Facility
       </Button>
       <CreateFacilityModal
-        FacilitiesURL="https://localhost:7113/api/facilities"
+        FacilitiesURL={process.env.REACT_APP_API_BACKEND_ROOT + "/facilities"}
         open={openCreateFacility}
         handleClose={handleCloseFacilityCreate}
         handleReload={getFacilitiesData}
       />
       <FacilitiesTable
-        FacilitiesURL="https://localhost:7113/api/facilities"
+        FacilitiesURL={process.env.REACT_APP_API_BACKEND_ROOT + "/facilities"}
         Facilities={facilities}
         handleReload={getFacilitiesData}
       />
